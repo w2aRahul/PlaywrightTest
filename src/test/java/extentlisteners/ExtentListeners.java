@@ -1,7 +1,12 @@
 package extentlisteners;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
@@ -16,6 +21,9 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.Markup;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
+
+import utilities.MonitoringMail;
+import utilities.TestConfig;
 
 public class ExtentListeners implements ITestListener, ISuiteListener {
 
@@ -102,8 +110,31 @@ public class ExtentListeners implements ITestListener, ISuiteListener {
 
 	}
 
+	String messageBody;
 	public void onFinish(ISuite suite) {
-		// TODO Auto-generated method stub
+
+		
+		MonitoringMail mail = new MonitoringMail();
+		
+		
+		try {
+			messageBody = "http://" + InetAddress.getLocalHost().getHostAddress()
+					+ ":8080/job/PlaywrightProject/Extent_20Reports/";
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		try {
+			mail.sendMail(TestConfig.server, TestConfig.from, TestConfig.to, TestConfig.subject, messageBody);
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 	}
 
