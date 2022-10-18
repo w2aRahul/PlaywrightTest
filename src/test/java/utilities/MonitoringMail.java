@@ -71,13 +71,13 @@ public class MonitoringMail
             // body.setText(messageBody);
             body.setContent(messageBody,"text/html");
 
-             BodyPart attachment = new MimeBodyPart();
+          //   BodyPart attachment = new MimeBodyPart();
            //  DataSource source = new FileDataSource(attachmentPath);
           //   attachment.setDataHandler(new DataHandler(source));
            //  attachment.setFileName(attachmentName);
              MimeMultipart multipart = new MimeMultipart();
              multipart.addBodyPart(body);
-             multipart.addBodyPart(attachment);
+           //  multipart.addBodyPart(attachment);
              message.setContent(multipart);
              Transport.send(message);
              System.out.println("Sucessfully Sent mail to All Users");
